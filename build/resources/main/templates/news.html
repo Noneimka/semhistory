@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <div th:replace="base::links"></div>
+</head>
+<body>
+<header th:replace="base :: header"></header>
+<section style="margin-bottom: 2em; padding: 2em">
+    <div class="container-fluid row">
+        <th:block th:if="${news}">
+            <div class="col-md-6" th:each="elem : ${news}">
+                <div class="row no-gutters rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
+                     style="border: 2px solid #111; border-bottom: 2px solid #333; background-color: #aaaaaa"
+                     th:id="'news' + ${elem.id}">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h3 class="mb-0 overflow-hidden" style="max-height: 1.3em" th:text="${elem.header}"></h3>
+                        <div class="mb-1 text-muted" th:text="${elem.date}"></div>
+                        <p class="card-text mb-auto overflow-hidden" style="max-height: 3em" th:text="${elem.text}"></p>
+                        <div>
+                            <a href="#">Continue reading</a>
+                        </div>
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+                        <img class="bd-placeholder-img" width="200" height="250"
+                             th:src="'/file?type=news&src=' + ${elem.photo}">
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+    </div>
+    <h3 th:unless="${news}">News</h3>
+</section>
+<footer th:replace="base :: footer"></footer>
+</body>
+</html>

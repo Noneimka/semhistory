@@ -1,0 +1,81 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin</title>
+    <div th:replace="base::links"></div>
+    <style>
+        table {
+            border: 1px solid grey;
+        }
+
+        th {
+            border: 1px solid grey;
+        }
+
+        td {
+            border: 1px solid grey;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="base :: header"></header>
+<section style="margin-bottom: 2em; padding: 2em; background-color: #aaaaaa">
+    <div class="container-fluid">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>UserName</th>
+                <th>Email</th>
+                <th>Roles</th>
+            </tr>
+            <th:block th:each="user : ${allUsers}" var="user">
+                <tr>
+                    <td>[(${user.id})]</td>
+                    <td>[(${user.name})]</td>
+                    <td>[(${user.email})]</td>
+                    <td>
+                        <th:block th:each="role : ${user.roles}">
+                            [(${role.name})];
+                        </th:block>
+                    </td>
+                    <td>
+                        <form action="/admin/change" method="post">
+                            <input type="hidden" name="userId" th:value="${user.id}"/>
+                            <input type="hidden" name="action" value="delete"/>
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/admin/change" method="post">
+                            <input type="hidden" name="userId" th:value="${user.id}"/>
+                            <input type="hidden" name="action" value="ban"/>
+                            <input type="hidden" name="banValue" th:value="${!user.enabled}">
+                            <button type="submit" th:if="${user.enabled}">Ban</button>
+                            <button type="submit" th:if="${!user.enabled}">UnBan</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/admin/change" method="post">
+                            <input type="hidden" name="userId" th:value="${user.id}"/>
+                            <input type="hidden" name="role"/>
+                            <select id="roles">
+                                <option th:each="role : ${allRoles}" th:value="${role.name}"
+                                        th:text="${role.name}"></option>
+                            </select>
+                            <input type="hidden" name="action" value="addRole"/>
+                            <button type="submit">Add</button>
+                        </form>
+                        <script th:inline="javascript">
+                            $('input[name="role"]').val("[(${allRoles[0].name})]");
+                            $('select#roles').on('change', function () {
+                                $('input[name="role"]').val(this.value);
+                            });
+                        </script>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+</section>
+<footer th:replace="base :: footer"></footer>
+</body>
+</html>

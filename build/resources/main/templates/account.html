@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${param.user[0]}"></title>
+    <div th:replace="base::links"></div>
+</head>
+<body>
+<header th:replace="base :: header"></header>
+<section style="margin-bottom: 2em; padding: 2em">
+    <div class="container-fluid row mb-4" style="background-color: #212529; padding: 1.5em">
+        <div class="list-group col-3">
+            <a id="messages" href="/chat" class="list-group-item disabled"
+               style="color: #aaaaaa; background-color: #222928">Messages</a>
+            <a id="options" class="list-group-item disabled"
+               style="color: #aaaaaa; background-color: #222928">Options</a>
+        </div>
+        <div class="container-fluid row col-9" style="color: #aaaaaa">
+            <div id="photo" class="container col-4 justify-content-center">
+                <img th:src="'/file?type=users&src=' + ${accountUser.getPhoto()}" width="200" height="200">
+                <script th:if="${currentUser}">
+                    $(document).ready(function () {
+                        $('#messages').removeClass('disabled')
+                    })
+                </script>
+
+                <script th:if="${currentUser} and ${currentUser.getId() == accountUser.getId()}">
+                    $(document).ready(function () {
+                        $('#options').removeClass('disabled')
+                    })
+                    var check = true;
+                    var userNickname = "[(${accountUser.getName()})]"
+                    var userId = "[(${accountUser.getId()})]"
+                </script>
+                <script src="/js/ChangeUserData.js"></script>
+            </div>
+            <div class="col-6 align-content-center" style="justify-content: left">
+                <div id="nickname" th:value="${accountUser.getName()}"><p>Nickname: [[${accountUser.getName()}]]</p>
+                </div>
+                <br>
+                <div id="email"><p>Email: [[${accountUser.getEmail()}]]</p>
+                </div>
+                <br>
+                <br>
+                <div id="password"></div>
+            </div>
+            <!--            <#if posts??>-->
+            <!--            <div id="posts" class="container col-12" style="margin-top: 1.5em">-->
+            <!--                <h5 style="text-align: center">Posts</h5>-->
+            <!--                <#list posts as post>-->
+            <!--                <div class="container-fluid row"-->
+            <!--                     style="position: center; margin: 0 0 1em 0; padding: 0; overflow: hidden; max-height: 3em; border: 1px solid black;">-->
+            <!--                    <div class="container col-6" style="position: center">-->
+            <!--                        <h5 style="text-align: left"><a class="waves-effect waves-dark"-->
+            <!--                                                        style="color: #aaaaaa">${post.heading}</a>-->
+            <!--                        </h5>-->
+            <!--                    </div>-->
+            <!--                    <div class="container col-4"-->
+            <!--                         style="display: flex; align-items: center; justify-content: center">-->
+            <!--                        <img src="/file/${userAccount.photo}" style="float: left; border-radius: 5em" width="30"-->
+            <!--                             height="30">-->
+            <!--                        <p style="margin: 0 0 0 1em; padding-left: 0; float: right"><a style="color: #aaaaaa"-->
+            <!--                                                                                       href="/account?user=${userAccount.nickname}">${userAccount.nickname}</a>-->
+            <!--                        </p>-->
+            <!--                    </div>-->
+
+            <!--                    <div class="container col-2"-->
+            <!--                         style="display: flex; align-items: center; justify-content: center">-->
+            <!--                        <i class="far fa-eye float-left" style="color: #aaaaaa"> ${post.views}</i>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </-->
+            <!--            #list>-->
+            <!--        </div>-->
+            <!--    </-->
+            <!--    #if>-->
+        </div>
+    </div>
+</section>
+<footer th:replace="base :: footer"></footer>
+</body>
+</html>
